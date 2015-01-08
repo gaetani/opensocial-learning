@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:t="http://myfaces.apache.org/tomahawk" xmlns:c="http://java.sun.com/jsp/jstl/core"
+                template="/page/layout/layout.xhtml">
+
+    <ui:define name="container">
+        <h:form id="feed">
+
+        <div class="container">
+
+            <div class="row main-features">
+
+                <div class="span2">
+
+                    <div class="well fixed-100">
+                        <p>
+                            <p:graphicImage value="#{sessionBean.usuarioLogado.fotoStreamed}"   />
+
+                        </p>
+                        <p>#{sessionBean.usuarioLogado.nome}</p>
+                        <p>#{sessionBean.usuarioLogado.assinatura}</p>
+                        <p>#{sessionBean.usuarioLogado.cidade}</p>
+                    </div>
+
+                </div>
+
+                <div class="span10">
+
+                    <div class="hero-unit">
+
+                        <h:inputTextarea styleClass="input mentionsTextarea textInput"
+                                         title="No que você está pensando?"
+                                         value="#{postController.post.descricao}"
+                                         id="post"/>
+                        <p>
+                            <h:commandLink action="#{postController.postar}" styleClass="btn btn-inverse btn-large btn-label" value="Postar">
+                                <f:ajax render=":feed:posts :feed:post" execute=":feed:post"/>
+                            </h:commandLink>
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="row main-features">
+
+                        <p:poll id="polling" interval="10" listener="#{postController.carregarPost}" update="posts" partialSubmit="true" />
+
+
+                        <a4j:outputPanel id="posts">
+                            <ui:repeat value="#{postController.postList}" var="novoPost">
+                                <div class="span5">
+                                    <div class="well">
+                                        <div class="right">
+
+<script type="text/javascript">
+    function fbs_click() {
+        u=location.href;
+        t='#{novoPost.descricao}';
+        window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u)+'&amp;t='+encodeURIComponent(t),'sharer','toolbar=0,status=0,width=626,height=436');
+        return false;
+    }
+</script>
+<style>
+    html .fb_share_link {
+        padding:2px 0 0 20px;
+        height:16px;
+        background:url(http://static.ak.facebook.com/images/share/facebook_share_icon.gif?6:26981) no-repeat top left;
+    }
+</style>
+<a rel="nofollow" href="http://www.facebook.com/share.php?u=" onclick="return fbs_click()" target="_blank" class="fb_share_link">Share on Facebook</a>
+                                        <h:commandLink action="#{postController.remover(novoPost)}" title="Remover Post" >
+                                            <img alt="Remover Post" src="/opensocial-learning/imgs/DeleteRed.png" style="max-height: 25px; max-width: 25px;"/>
+                                            <f:ajax render=":feed:posts"/>
+                                        </h:commandLink>
+                                        </div>
+
+                                        <h3><img alt="#{novoPost.autorPost.nome}" src="/opensocial-learning/imgs/usuarios/#{novoPost.autorPost.login}.jpg" style="max-height: 50px; min-width: 50px;"/>#{novoPost.autorPost.nome}</h3>
+                                        <div id="labelPost#{novoPost.id}"><p>#{novoPost.descricao}
+                                                                            <input type="image" src="/opensocial-learning/imgs/edit.png" style="max-height: 15px; max-width: 15px;" onclick="return editPost('labelPost#{novoPost.id}','editPost#{novoPost.id}');" /></p></div>
+                                        <div id="editPost#{novoPost.id}" style="display: none;"><h:inputText value="#{novoPost.descricao}" id="novoPost"/>
+                                            <h:commandButton styleClass="btn btn-inverse btn-small btn-label" value="Alterar" action="#{postController.alterar(novoPost)}">
+                                                <f:ajax execute="novoPost" render=":feed:posts"/>
+                                            </h:commandButton>
+                                        </div>
+                                        <span class="btn-label">
+                                            Para as turmas:
+                                            <ui:repeat value="#{novoPost.turmaDisciplinaList}" var="turmas">
+                                                #{turmas.turma.codigoTurma}
+                                            </ui:repeat>
+                                            em:
+                                            <h:outputText value="#{novoPost.postado}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy 'às' hh:mm"/>
+                                            </h:outputText>
+                                        </span>
+                                        <br/>
+                                        <ui:repeat value="#{novoPost.comentarioList}" var="com">
+                                            <p><img alt="#{com.usuario.nome}" src="/opensocial-learning/imgs/usuarios/#{com.usuario.login}.jpg" style="max-height: 32px; min-width: 32px;"/>
+                                                <b>#{com.usuario.nome}</b> #{com.descricao} <br/>
+                                                em <h:outputText value="#{com.inserido}">
+                                                        <f:convertDateTime pattern="dd/MM/yyyy 'às' hh:mm"/>
+                                                   </h:outputText>
+                                                <h:commandLink action="#{postController.removerComentario(com)}" >
+                                                    <img alt="#{novoPost.autorPost.nome}" src="/opensocial-learning/imgs/apagarcomentario.png" style="max-height: 25px; max-width: 25px;"/>
+                                                    <f:ajax execute="@this" render=":feed:posts"/>
+                                                </h:commandLink>
+                                            </p>
+                                        </ui:repeat>
+                                        <p>
+                                            <h:inputText id="comentario" value="#{postController.comentario.descricao}"/>
+
+                                            <h:commandButton styleClass="btn btn-inverse btn-small btn-label" value="Comentar" action="#{postController.comentar(novoPost)}">
+                                                <f:ajax execute="comentario" render=":feed:posts"/>
+                                            </h:commandButton>
+                                        </p>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+
+                            <script language="JavaScript" type="text/javascript">
+                                document.getElementById("feed:post").setAttribute("placeholder","No que você está pensando?");
+                            </script>
+                        </a4j:outputPanel>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

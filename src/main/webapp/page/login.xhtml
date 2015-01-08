@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/page/layout/layout.xhtml">
+    <ui:define name="container">
+            <div class="container">
+
+                <div class="row main-features">
+
+                    <div class="span6">
+                        <div class="well fixed">
+                            <h3>Missão</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare quam non odio vestibulum sit amet rhoncus magna tempor. Sed sed molestie dui. Nunc sed augue at mauris vestibulum accumsan non imperdiet nibh. Sed in aliquam velit. Sed nec purus mauris, nec sagittis tortor. Donec luctus placerat porttitor. Integer dui sapien, euismod eu sodales eget, porttitor in arcu. Proin dui massa, ullamcorper vel malesuada rhoncus, dictum vel orci.</p>
+                        </div>
+                    </div>
+
+                    <div class="span6">
+                        <div class="well fixed">
+                            <h:messages/>
+                            <h3>Faça o login</h3>
+
+                            <form action="/opensocial-learning/j_spring_security_check" method="post">
+                                    <h:inputText id="j_username" styleClass="input-medium" placeholder="login" />
+                                    <br/>
+                                    <h:inputSecret id="j_password" styleClass="input-medium"/>
+                                <div class="form-actions">
+                                <h:commandButton value="Login" styleClass="btn btn-primary"/>
+                                <a class="btn" href="registrar.php">Registrar</a>
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row main-features">
+
+                    <div class="span12">
+
+                        <div class="centered">
+
+                            <div class="sponsors">
+                                <a href="http://www.estacio.br" target="_blank"><img alt="Estácio" src="/opensocial-learning/assets/img/estacio_logo.jpg" width="200" height="114" /></a>
+                                <img src="/opensocial-learning/assets/img/estacio_logo.jpg" alt="Estácio" width="200" height="114" />
+                                <img src="/opensocial-learning/assets/img/estacio_logo.jpg" alt="Estácio" width="200" height="114" />
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <script language="JavaScript" type="text/javascript">
+                document.getElementById("j_username").setAttribute("placeholder","Login");
+                document.getElementById("j_password").setAttribute("placeholder","Senha");
+            </script>
+
+    </ui:define>
+</ui:composition>
